@@ -21,7 +21,7 @@ Overview of useful arguments:
 Example:
 
 ```bash
-sn-calibration/src> python custom_extremities -p pitchloc_train --checkpoint ../resources/train_59.pt --split test --pp_num_points 4
+sn-calibration/src> python custom_extremities.py -p pitchloc_train --checkpoint ../resources/train_59.pt --split test --pp_num_points 4
 
 ```
 
