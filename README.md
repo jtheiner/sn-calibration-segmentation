@@ -1,10 +1,10 @@
 # EVS Camera Calibration Challenge
 
-This is a fork of the [EVS Camera Calbibration Challenge repository](https://github.com/SoccerNet/sn-calibration).
+This is a fork of the [EVS Camera Calibration Challenge repository](https://github.com/SoccerNet/sn-calibration).
 
 ## Usage
 
-Train a new model using the segmentation directory.
+Train a new model using the src/segmentation directory.
 
 Extract extremities keypoints using `custom_extremities.py`.
 
@@ -21,7 +21,7 @@ Overview of useful arguments:
 Example:
 
 ```bash
-sn-calibration/src> python custom_extremities -p pitchloc_train --checkpoint ../resources/custom_train_60.pt --split test --pp_num_points 4
+sn-calibration/src> python custom_extremities -p pitchloc_train --checkpoint ../resources/train_59.pt --split test --pp_num_points 4
 
 ```
 
