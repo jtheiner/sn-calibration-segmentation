@@ -122,11 +122,13 @@ def get_line_extremities(buckets, maxdist, width, height, num_points):
         ]
         if num_points > 2:
             # equally spaced points along the longest polyline
-            for i in range(1, num_points):
+            # skip first and last as they already exist
+            for i in range(1, num_points - 1):
                 extremities[class_name].insert(
                     len(extremities[class_name]) - 1,
                     {'x': longest_polyline[i * int(len(longest_polyline) / num_points)][1] / width, 'y': longest_polyline[i * int(len(longest_polyline) / num_points)][0] / height}
                 )
+
     return extremities
 
 
@@ -296,15 +298,11 @@ if __name__ == "__main__":
                 mask = Image.fromarray(semlines.astype(np.uint8)).convert('P')
                 mask.putpalette(lines_palette)
                 mask_file = os.path.join(output_prediction_folder, frame)
-                # mask.save(mask_file)
-                # save error with P mode
-                # print("Save mask to", mask_file)
                 mask.convert("RGB").save(mask_file)
-            # 6 40 default
             skeletons = generate_class_synthesis(semlines, radius)
-            # print("skeletons", type(skeletons), skeletons)
-            extremities = get_line_extremities(skeletons, maxdists, args.resolution_width, args.resolution_height)
-            # print("extremities", type(extremities))
+
+            extremities = get_line_extremities(skeletons, maxdists, args.resolution_width, args.resolution_height, args.pp_num_points)
+
 
             prediction = extremities
             count += 1
@@ -312,4 +310,4 @@ if __name__ == "__main__":
             prediction_file = os.path.join(output_prediction_folder, f"extremities_{frame_index}.json")
             with open(prediction_file, "w") as f:
                 json.dump(prediction, f, indent=4)
-            # exit("Done :)")
+
