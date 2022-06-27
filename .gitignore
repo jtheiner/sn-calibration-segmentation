@@ -132,3 +132,5 @@ dmypy.json
 path
 predictions
 results
+src/segmentation/wandb
+src/segmentation/checkpoints
