@@ -279,7 +279,7 @@ if __name__ == "__main__":
     with tqdm(enumerate(frames), total=len(frames), ncols=160) as t:
         for i, frame in t:
 
-            output_prediction_folder = os.path.join(str(args.prediction) + f"_np{args.pp_num_points}_r{radius}_md{maxdists}", args.split)
+            output_prediction_folder = os.path.join(str(args.prediction), f"np{args.pp_num_points}_r{radius}_md{maxdists}", args.split)
             if not os.path.exists(output_prediction_folder):
                 os.makedirs(output_prediction_folder)
             prediction = dict()
