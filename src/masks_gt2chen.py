@@ -119,10 +119,12 @@ def create_target_from_annotation(width, height, annotation, classes, linewidth=
 
 class ExtremitiesDataset(Dataset):
     def __init__(
-        self, root, split, filter_cam=None, classes=lines_classes, palette=palette
+        self, root, split, annotations, filter_cam=None, extremities_prefix="", classes=lines_classes, palette=palette
     ):
         self.data_root = Path(root)
         self.split = split
+
+        self.annotations_path = annotations
 
         if filter_cam is None:
             files = os.listdir(self.data_root / self.split)
@@ -135,7 +137,7 @@ class ExtremitiesDataset(Dataset):
             df["image_file"] = df.index
             df = df.sort_values(by=["image_file"])
             df["annotation_file"] = df["image_file"].apply(
-                lambda s: s.split(".jpg")[0] + ".json"
+                lambda s: extremities_prefix + s.split(".jpg")[0] + ".json"
             )
             self.annotations = df["annotation_file"].tolist()
             self.images = df["image_file"].tolist()
@@ -149,7 +151,7 @@ class ExtremitiesDataset(Dataset):
         # see https://learnopencv.com/pytorch-for-beginners-semantic-segmentation-using-torchvision/
 
         impath = self.data_root / self.split / self.images[idx]
-        annotation_path = self.data_root / self.split / self.annotations[idx]
+        annotation_path = self.annotations_path /  self.annotations[idx]
         with open(annotation_path, "r") as f:
             annotation = json.load(f)
 
@@ -183,7 +185,9 @@ if __name__ == "__main__":
 
     args = ArgumentParser()
     args.add_argument("--data_dir", type=Path)
+    args.add_argument("--annotations", type=Path)
     args.add_argument("--output_dir", type=Path)
+    args.add_argument("--extremities_prefix", type=str, default="")
     args = args.parse_args()
 
     data_dir = args.data_dir.parent
@@ -192,7 +196,7 @@ if __name__ == "__main__":
     if not output_dir.exists():
         raise FileNotFoundError
 
-    dataset = ExtremitiesDataset(data_dir, split, filter_cam="Main camera center")
+    dataset = ExtremitiesDataset(data_dir, split, args.annotations, filter_cam="Main camera center", extremities_prefix=args.extremities_prefix)
 
     # img, edge_map, img_id = dataset[0]
     # edge_map = edge_map.squeeze(0).numpy()
