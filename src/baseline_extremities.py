@@ -257,9 +257,9 @@ if __name__ == "__main__":
                         help="Path to the prediction folder")
     parser.add_argument('--split', required=False, type=str, default="test", help='Select the split of data')
     parser.add_argument('--masks', required=False, type=bool, default=False, help='Save masks in prediction directory')
-    parser.add_argument('--resolution_width', required=False, type=int, default=640,
+    parser.add_argument('--resolution_width', required=False, type=int, default=455,
                         help='width resolution of the images')
-    parser.add_argument('--resolution_height', required=False, type=int, default=360,
+    parser.add_argument('--resolution_height', required=False, type=int, default=256,
                         help='height resolution of the images')
     args = parser.parse_args()
 
@@ -297,7 +297,7 @@ if __name__ == "__main__":
                 mask = Image.fromarray(semlines.astype(np.uint8)).convert('P')
                 mask.putpalette(lines_palette)
                 mask_file = os.path.join(output_prediction_folder, frame)
-                mask.save(mask_file)
+                mask.convert("RGB").save(mask_file)
             skeletons = generate_class_synthesis(semlines, 6)
             extremities = get_line_extremities(skeletons, 40, args.resolution_width, args.resolution_height)
 
