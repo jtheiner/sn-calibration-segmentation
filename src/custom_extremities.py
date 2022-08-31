@@ -94,7 +94,7 @@ def join_points(point_list, maxdist):
     return polylines
 
 
-def get_line_extremities(buckets, maxdist, width, height, num_points):
+def get_line_extremities(buckets, maxdist, width, height, num_points_lines, num_points_circles):
     """
     Given the dictionary {lines_class: points}, finds plausible extremities of each line, i.e the extremities
     of the longest polyline that can be built on the class blobs,  and normalize its coordinates
@@ -120,6 +120,9 @@ def get_line_extremities(buckets, maxdist, width, height, num_points):
             {'x': longest_polyline[-1][1] / width, 'y': longest_polyline[-1][0] / height}, 
             
         ]
+        num_points = num_points_lines
+        if "Circle" in class_name:
+            num_points = num_points_circles
         if num_points > 2:
             # equally spaced points along the longest polyline
             # skip first and last as they already exist
@@ -257,8 +260,10 @@ if __name__ == "__main__":
                         help='Post processing: Radius of circles that cover each segment.')
     parser.add_argument('--pp_maxdists', required=False, type=int, default=30,
                         help='Post processing: Maximum distance of circles that are allowed within one segment.')
-    parser.add_argument('--pp_num_points', required=False, type=int, default=2, choices=range(2,10),
-                        help='Post processing: Number of keypoints that represent a segment')
+    parser.add_argument('--num_points_lines', required=False, type=int, default=2, choices=range(2,10),
+                        help='Post processing: Number of keypoints that represent a line segment')
+    parser.add_argument('--num_points_circles', required=False, type=int, default=2, choices=range(2,10),
+                        help='Post processing: Number of keypoints that represent a circle segment')
     args = parser.parse_args()
 
     lines_palette = [0, 0, 0]
@@ -279,7 +284,7 @@ if __name__ == "__main__":
     with tqdm(enumerate(frames), total=len(frames), ncols=160) as t:
         for i, frame in t:
 
-            output_prediction_folder = os.path.join(str(args.prediction), f"np{args.pp_num_points}_r{radius}_md{maxdists}", args.split)
+            output_prediction_folder = os.path.join(str(args.prediction), f"np{args.num_points_lines}_nc{args.num_points_circles}_r{radius}_md{maxdists}", args.split)
             if not os.path.exists(output_prediction_folder):
                 os.makedirs(output_prediction_folder)
             prediction = dict()
@@ -301,7 +306,7 @@ if __name__ == "__main__":
                 mask.convert("RGB").save(mask_file)
             skeletons = generate_class_synthesis(semlines, radius)
 
-            extremities = get_line_extremities(skeletons, maxdists, args.resolution_width, args.resolution_height, args.pp_num_points)
+            extremities = get_line_extremities(skeletons, maxdists, args.resolution_width, args.resolution_height, args.num_points_lines, args.num_points_circles)
 
 
             prediction = extremities
