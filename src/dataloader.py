@@ -12,7 +12,7 @@ import numpy as np
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
-from src.soccerpitch import SoccerPitch
+from SoccerNet.Evaluation.utils_calibration import SoccerPitch
 
 
 class SoccerNetDataset(Dataset):
