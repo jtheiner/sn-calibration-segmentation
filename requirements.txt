@@ -6,3 +6,4 @@ tqdm~=4.62.3
 soccernet==0.1.34
 opencv-python-headless~=4.5.5
 matplotlib~=3.5.1
+pytorch-lightning>=1.5.10
