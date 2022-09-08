@@ -9,7 +9,7 @@ from PIL import Image
 from tqdm import tqdm
 import cv2
 
-from soccerpitch import SoccerPitch
+from SoccerNet.Evaluation.utils_calibration import SoccerPitch
 
 from custom_extremities import CustomNetwork
 

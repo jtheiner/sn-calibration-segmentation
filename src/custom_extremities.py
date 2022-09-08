@@ -18,7 +18,7 @@ from PIL import Image
 from torchvision.models.segmentation import deeplabv3_resnet101
 from tqdm import tqdm
 
-from soccerpitch import SoccerPitch
+from SoccerNet.Evaluation.utils_calibration import SoccerPitch
 
 
 def generate_class_synthesis(semantic_mask, radius):
