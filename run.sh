@@ -9,7 +9,6 @@ python custom_extremities.py -p $OUTPUT_DIR --checkpoint ../resources/train_59.p
 python custom_extremities.py -p $OUTPUT_DIR --checkpoint ../resources/train_59.pt --split wc14-test --num_points_lines 4 --num_points_circles 8
 
 # for DLT from line baseline -> best results for two major points
-# num_points_circles does not matter
 
 # ResNet-101 retrained
 python custom_extremities.py -p $OUTPUT_DIR --checkpoint ../resources/train_59.pt --split wc14-test --pp_num_points 2 --pp_maxdists 40
