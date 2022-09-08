@@ -75,7 +75,7 @@ palette = {
     'Small rect. right top': (153, 23, 153)
 }
 
-data_dir = Path("/nfs/data/soccernet/calibration")
+data_dir = Path("data/datasets")
 
 def create_target_from_annotation(width, height, annotation, classes):
     """Draw one-hot encoded segments according to the annotation.
