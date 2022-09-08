@@ -7,6 +7,10 @@ import random
 from collections import deque
 from pathlib import Path
 
+from pytorch_lightning import seed_everything
+
+seed_everything(seed=10, workers=True)
+
 import cv2 as cv
 import numpy as np
 import torch
@@ -247,7 +251,7 @@ if __name__ == "__main__":
 
     parser.add_argument('-s', '--soccernet', default="/nfs/data/soccernet/calibration/", type=str,
                         help='Path to the SoccerNet-V3 dataset folder')
-    parser.add_argument('-p', '--prediction', default="/nfs/home/rhotertj/datasets/sn-calib-test_endpoints", required=False, type=str,
+    parser.add_argument('-p', '--prediction', default="sn-calib-test_endpoints", required=False, type=str,
                         help="Path to the prediction folder")
     parser.add_argument('--split', required=False, type=str, default="challenge", help='Select the split of data')
     parser.add_argument('--masks', required=False, type=bool, default=False, help='Save masks in prediction directory')
