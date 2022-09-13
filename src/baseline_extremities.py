@@ -261,6 +261,7 @@ if __name__ == "__main__":
                         help='width resolution of the images')
     parser.add_argument('--resolution_height', required=False, type=int, default=256,
                         help='height resolution of the images')
+    parser.add_argument('--checkpoint_dir', default="resources")
     args = parser.parse_args()
 
     lines_palette = [0, 0, 0]
@@ -268,9 +269,9 @@ if __name__ == "__main__":
         lines_palette.extend(SoccerPitch.palette[line_class])
 
     calib_net = SegmentationNetwork(
-        "resources/soccer_pitch_segmentation.pth",
-        "resources/mean.npy",
-        "resources/std.npy")
+        os.path.join(args.checkpoint_dir, "soccer_pitch_segmentation.pth"),
+        os.path.join(args.checkpoint_dir, "mean.npy"),
+        os.path.join(args.checkpoint_dir, "std.npy")
 
     dataset_dir = os.path.join(args.soccernet, args.split)
     if not os.path.exists(dataset_dir):
