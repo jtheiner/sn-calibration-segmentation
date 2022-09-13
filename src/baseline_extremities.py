@@ -272,6 +272,7 @@ if __name__ == "__main__":
         os.path.join(args.checkpoint_dir, "soccer_pitch_segmentation.pth"),
         os.path.join(args.checkpoint_dir, "mean.npy"),
         os.path.join(args.checkpoint_dir, "std.npy")
+    )
 
     dataset_dir = os.path.join(args.soccernet, args.split)
     if not os.path.exists(dataset_dir):
